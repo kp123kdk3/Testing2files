@@ -1,0 +1,8 @@
+flask
+flask-cors
+torch
+beautifulsoup4
+wikipedia
+scholarly
+requests
+PyGithub 
