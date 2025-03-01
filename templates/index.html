@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>What can I help with?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --input-bg: #f5f7fa;
+            --sidebar-shadow: rgba(0, 0, 0, 0.05);
+            --button-bg: #007bff;
+            --button-hover: #0056b3;
+            --success-color: #28a745;
+            --output-bg: #f8f9fa;
+            --hover-bg: #f8f9fa;
+            --active-bg: #e7f0ff;
+            --active-text: #007bff;
+            --plan-bg: #f8f9fa;
+            --plan-border: rgba(0, 0, 0, 0.05);
+            --model-dropdown-bg: #ffffff;
+            --model-hover: #f8f9fa;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --input-bg: #363636;
+            --sidebar-shadow: rgba(0, 0, 0, 0.2);
+            --button-bg: #2563eb;
+            --button-hover: #1d4ed8;
+            --success-color: #059669;
+            --output-bg: #363636;
+            --hover-bg: #404040;
+            --active-bg: #3b82f6;
+            --active-text: #ffffff;
+            --plan-bg: #363636;
+            --plan-border: rgba(255, 255, 255, 0.1);
+            --model-dropdown-bg: #363636;
+            --model-hover: #404040;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin-left: 260px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        /* Create a button group container */
+        .button-group {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Update fab-container positioning */
+        .fab-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Adjust textarea padding to account for both buttons */
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 20px;
+            padding-bottom: 40px;
+            padding-left: 110px; /* Keep this for the buttons */
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 16px;
+            resize: none;
+            transition: all 0.3s ease;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        /* Add specific placeholder styling */
+        textarea::placeholder {
+            position: absolute;
+            top: 20px;
+            left: 20px; /* Align with the left border */
+            color: var(--text-secondary);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        /* Add interactive button base styles */
+        .interactive-btn {
+            transform: translateY(0);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: inherit;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .interactive-btn:active::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 1;
+            transition: 0s;
+        }
+
+        .interactive-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .interactive-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Update existing button styles */
+        button {
+            padding: 15px 40px;
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        button:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.generating {
+            background: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .output-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            min-height: 60px;
+            display: none; /* Hide by default */
+        }
+
+        .output-container.active {
+            display: block; /* Show when has content */
+        }
+
+        .loading-dots {
+            display: none;
+        }
+
+        .wave {
+            position: fixed;
+            bottom: 0;
+            left: 260px;
+            width: calc(100% - 260px);
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="currentColor" fill-opacity="0.2" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            animation: wave 10s linear infinite;
+            opacity: 0.1;
+            pointer-events: none;
+            color: var(--text-primary);
+        }
+
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1440px; }
+        }
+
+        /* Add new sidebar styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 260px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 20px var(--sidebar-shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .sidebar-logo i {
+            font-size: 24px;
+            color: var(--button-bg);
+            margin-right: 10px;
+        }
+
+        .search-container {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            background: var(--input-bg);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+
+        .search-container i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #007bff;
+        }
+
+        /* Update new chat button */
+        .new-chat-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--button-bg);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 20px;
+            font-weight: 500;
+            border: none;
+            overflow: hidden;
+        }
+
+        .new-chat-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .new-chat-btn:active {
+            transform: translateY(0);
+        }
+
+        .chats-container {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 10px;
+        }
+
+        .date-section {
+            padding: 8px 0;
+            margin: 8px 0;
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .date-section::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            background: transparent;
+        }
+
+        .chat-item:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .chat-item.active {
+            background: var(--active-bg);
+            color: var(--active-text);
+        }
+
+        .chat-item i {
+            font-size: 1.1em;
+            width: 24px;
+            text-align: center;
+        }
+
+        .plan-container {
+            padding: 15px;
+            background: var(--plan-bg);
+            border-radius: 8px;
+            margin-top: auto;
+            border: 1px solid var(--plan-border);
+        }
+
+        .plan-header {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .plan-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .upgrade-btn {
+            padding: 6px 12px;
+            background: var(--button-bg);
+            border-radius: 6px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .upgrade-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Scrollbar styling */
+        .chats-container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chats-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chats-container::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .chats-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            body {
+                margin-left: 0;
+            }
+
+            .wave {
+                left: 0;
+                width: 100%;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                left: 20px;
+                top: 20px;
+                z-index: 1001;
+            }
+        }
+
+        .fab-button {
+            width: 36px;
+            height: 36px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .fab-button i {
+            font-size: 16px;
+        }
+
+        .fab-button:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .fab-options {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .fab-container:hover .fab-options {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .fab-container:hover .fab-button i {
+            transform: rotate(45deg);
+        }
+
+        .fab-option {
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .fab-option i {
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .fab-option:hover {
+            background: var(--model-hover);
+            transform: translateY(-2px);
+        }
+
+        .fab-label {
+            position: absolute;
+            left: 60px;
+            background: #333;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .fab-option:hover .fab-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Adjust for mobile responsiveness */
+        @media (max-width: 768px) {
+            .fab-container {
+                left: 20px;
+            }
+        }
+
+        /* Update web search button positioning */
+        .web-search-btn {
+            width: 36px;
+            height: 36px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .web-search-btn:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        .web-search-btn i {
+            font-size: 16px;
+        }
+
+        .web-search-btn.active {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .web-search-btn .tooltip {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .web-search-btn:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        /* Research button styles */
+        .research-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 40px;
+            height: 40px;
+            background: #6f42c1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .research-btn i {
+            font-size: 18px;
+        }
+
+        .research-btn:hover {
+            background: #5a32a3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(111, 66, 193, 0.3);
+        }
+
+        .research-btn.active {
+            background: #8a5dc7;
+        }
+
+        .research-btn .tooltip {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .research-btn:hover .tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        /* Model selector styles */
+        .model-selector {
+            position: relative;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .current-model {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--input-bg);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .current-model:hover {
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .model-icon {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .model-icon i {
+            font-size: 1.1em;
+            color: #007bff;
+        }
+
+        .models-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--model-dropdown-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            margin-top: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .model-selector:hover .models-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .model-option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-secondary);
+            overflow: hidden;
+        }
+
+        .model-option:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .model-option:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        .model-option:hover {
+            background: var(--model-hover);
+            color: var(--text-primary);
+        }
+
+        .model-option i {
+            font-size: 1.1em;
+            width: 24px;
+            text-align: center;
+        }
+
+        .model-description {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* Theme toggle button styles */
+        .theme-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .theme-toggle i {
+            font-size: 1.2em;
+            transition: transform 0.5s ease;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-sun {
+            display: block;
+        }
+
+        [data-theme="dark"] .theme-toggle .fa-moon {
+            display: none;
+        }
+
+        .theme-toggle .fa-sun {
+            display: none;
+        }
+
+        .theme-toggle .fa-moon {
+            display: block;
+        }
+
+        /* Ensure search input placeholder is visible */
+        .search-container input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        /* Ensure all text is visible in dark mode */
+        .plan-name, 
+        .plan-header, 
+        .model-description,
+        .current-model span,
+        .model-option span {
+            color: var(--text-primary);
+        }
+
+        .upgrade-btn {
+            color: #ffffff;
+            background: var(--button-bg);
+        }
+
+        .upgrade-btn:hover {
+            background: var(--button-hover);
+        }
+
+        /* Add styles for the custom AI icon */
+        .ai-icon {
+            width: 28px;
+            height: 28px;
+            color: var(--button-bg);
+            transition: all 0.3s ease;
+        }
+
+        .ai-icon:hover {
+            transform: scale(1.1);
+        }
+
+        [data-theme="dark"] .ai-icon {
+            color: var(--text-primary);
+        }
+
+        /* Add styles for combined icon */
+        .combined-icon {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .combined-icon i {
+            color: var(--button-bg);
+        }
+
+        .overlay-icon {
+            position: absolute;
+            font-size: 0.7em;
+            opacity: 0.7;
+            transform: translateY(4px);
+        }
+
+        /* Add pulse animation for active states */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .chat-item.active {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        /* Ripple effect styles */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Research icon styles */
+        .research-icon {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .research-icon .fas.fa-microscope {
+            color: var(--button-bg);
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .research-icon .overlay-icon {
+            position: absolute;
+            font-size: 0.8em;
+            top: -2px;
+            right: -2px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+
+        .model-option:hover .research-icon .fas.fa-microscope {
+            transform: scale(1.1);
+        }
+
+        .model-option:hover .research-icon .overlay-icon {
+            transform: rotate(180deg);
+            color: var(--button-bg);
+        }
+
+        [data-theme="dark"] .research-icon .fas.fa-microscope {
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .model-option:hover .research-icon .overlay-icon {
+            color: var(--text-primary);
+        }
+
+        /* Add styles for the deep search button */
+        .deep-search-btn,
+        .deep-search-icon,
+        .deep-search-icon .fa-telescope,
+        .deep-search-icon .fa-sparkles,
+        .deep-search-btn:hover,
+        .deep-search-btn:hover .deep-search-icon .fa-telescope,
+        .deep-search-btn:hover .deep-search-icon .fa-sparkles,
+        .deep-search-btn .tooltip {
+            /* Remove these style blocks entirely */
+        }
+
+        /* Add tooltip styles */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1000;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Add these styles to your existing CSS */
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .web-search-btn.active {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .output-container {
+            transition: all 0.3s ease;
+        }
+
+        .output-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle interactive-btn" onclick="toggleTheme()">
+        <i class="fas fa-sun"></i>
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Add sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-bolt"></i>
+                <span>POPI AI</span>
+            </div>
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <div class="model-selector">
+            <div class="current-model interactive-btn">
+                <div class="model-icon">
+                    <i class="fas fa-robot"></i>
+                    <span>General Assistant</span>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="models-dropdown">
+                <div class="model-option interactive-btn" data-model="general">
+                    <i class="fas fa-robot"></i>
+                    <div>
+                        <div>General Assistant</div>
+                        <div class="model-description">For everyday conversations and tasks</div>
+                    </div>
+                </div>
+                <div class="model-option" data-model="code">
+                    <i class="fas fa-code"></i>
+                    <div>
+                        <div>Code Assistant</div>
+                        <div class="model-description">Specialized in programming and development</div>
+                    </div>
+                </div>
+                <div class="model-option" data-model="research">
+                    <div class="research-icon">
+                        <i class="fas fa-microscope"></i>
+                        <i class="fas fa-atom overlay-icon"></i>
+                    </div>
+                    <div>
+                        <div>Research Assistant</div>
+                        <div class="model-description">Deep research and academic analysis</div>
+                    </div>
+                </div>
+                <div class="model-option" data-model="writer">
+                    <i class="fas fa-pencil-alt"></i>
+                    <div>
+                        <div>Writing Assistant</div>
+                        <div class="model-description">Content creation and writing help</div>
+                    </div>
+                </div>
+                <div class="model-option" data-model="web">
+                    <i class="fas fa-globe"></i>
+                    <div>
+                        <div>Web Search Assistant</div>
+                        <div class="model-description">Internet search and information gathering</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search chats...">
+            <i class="fas fa-search"></i>
+        </div>
+
+        <div class="new-chat-btn interactive-btn">
+            <i class="fas fa-plus"></i>
+            New Chat
+        </div>
+
+        <div class="chats-container">
+            <div class="date-section">Today</div>
+            <div class="chat-item">
+                <i class="fas fa-robot"></i>
+                <span>General Assistant Chat</span>
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-code"></i>
+                <span>Python Help</span>
+            </div>
+
+            <div class="date-section">Yesterday</div>
+            <div class="chat-item">
+                <i class="fas fa-search"></i>
+                <span>Research: AI Ethics</span>
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-pencil-alt"></i>
+                <span>Blog Post Draft</span>
+            </div>
+
+            <div class="date-section">Previous 7 Days</div>
+            <div class="chat-item">
+                <i class="fas fa-globe"></i>
+                <span>Web Search: Climate Change</span>
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-code"></i>
+                <span>JavaScript Debug</span>
+            </div>
+
+            <div class="date-section">Previous 30 Days</div>
+            <div class="chat-item">
+                <i class="fas fa-robot"></i>
+                <span>Project Planning</span>
+            </div>
+            <div class="chat-item">
+                <i class="fas fa-search"></i>
+                <span>Research: Quantum Computing</span>
+            </div>
+        </div>
+
+        <div class="plan-container">
+            <div class="plan-header">Current Plan</div>
+            <div class="plan-details">
+                <span class="plan-name">Free Tier</span>
+                <span class="upgrade-btn">Upgrade</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add mobile menu button -->
+    <button class="mobile-menu-btn" style="display: none;">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Existing content -->
+    <div class="wave"></div>
+    <div class="container">
+        <h1>What can I help with?</h1>
+        <div class="input-container">
+            <textarea id="prompt" placeholder="Enter your prompt here..."></textarea>
+            <div class="button-group">
+                <div class="fab-container">
+                    <div class="fab-button">
+                        <i class="fas fa-paperclip"></i>
+                    </div>
+                    <div class="fab-options">
+                        <div class="fab-option" title="Connect to Google Docs">
+                            <i class="fab fa-google-drive"></i>
+                            <span class="fab-label">Google Docs</span>
+                        </div>
+                        <div class="fab-option" title="Connect to OneDrive">
+                            <i class="fab fa-microsoft"></i>
+                            <span class="fab-label">OneDrive</span>
+                        </div>
+                        <div class="fab-option" title="Upload Image">
+                            <i class="fas fa-image"></i>
+                            <span class="fab-label">Upload Image</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tooltip-container">
+                    <div class="web-search-btn interactive-btn" onclick="toggleWebSearch()" id="webSearchBtn">
+                        <i class="fas fa-search"></i>
+                        <span class="tooltip-text">Web Search Mode</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="generateBtn" class="interactive-btn">
+                Generate
+            </button>
+        </div>
+        <div class="output-container" id="output"></div>
+    </div>
+
+    <script>
+        // Add research functionality
+        let researchEnabled = false;
+        
+        function toggleResearch() {
+            const researchBtn = document.getElementById('researchBtn');
+            const webSearchBtn = document.getElementById('webSearchBtn');
+            const prompt = document.getElementById('prompt');
+            
+            researchEnabled = !researchEnabled;
+            
+            if (researchEnabled) {
+                researchBtn.classList.add('active');
+                webSearchBtn.classList.remove('active');
+                webSearchEnabled = false;
+                prompt.placeholder = "Enter research topic...";
+            } else {
+                researchBtn.classList.remove('active');
+                prompt.placeholder = "Enter your prompt here...";
+            }
+        }
+        
+        // Existing web search functionality
+        let webSearchEnabled = false;
+        
+        function toggleWebSearch() {
+            const webSearchBtn = document.getElementById('webSearchBtn');
+            const prompt = document.getElementById('prompt');
+            
+            webSearchEnabled = !webSearchEnabled;
+            
+            if (webSearchEnabled) {
+                webSearchBtn.classList.add('active');
+                prompt.placeholder = "Search the web...";
+            } else {
+                webSearchBtn.classList.remove('active');
+                prompt.placeholder = "Enter your prompt here...";
+            }
+        }
+        
+        // Model switching functionality
+        let currentModel = 'general';
+        
+        document.querySelectorAll('.model-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const modelType = this.dataset.model;
+                const modelIcon = this.querySelector('i').className;
+                const modelName = this.querySelector('div > div:first-child').textContent;
+                
+                // Update current model display
+                document.querySelector('.current-model .model-icon i').className = modelIcon;
+                document.querySelector('.current-model .model-icon span').textContent = modelName;
+                
+                // Update current model type
+                currentModel = modelType;
+                
+                // Update placeholder based on model type
+                const prompt = document.getElementById('prompt');
+                switch(modelType) {
+                    case 'code':
+                        prompt.placeholder = "Enter your coding question...";
+                        break;
+                    case 'research':
+                        prompt.placeholder = "Enter your research topic...";
+                        break;
+                    case 'writer':
+                        prompt.placeholder = "Enter your writing prompt...";
+                        break;
+                    case 'web':
+                        prompt.placeholder = "Enter your search query...";
+                        break;
+                    default:
+                        prompt.placeholder = "Enter your prompt here...";
+                }
+            });
+        });
+
+        // Update the generateText function
+        async function generateText() {
+            const prompt = document.getElementById('prompt');
+            const output = document.getElementById('output');
+            const generateBtn = document.getElementById('generateBtn');
+            
+            if (!prompt.value.trim()) {
+                alert('Please enter a prompt first');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                output.textContent = 'Generating...';
+                output.classList.add('active');
+                
+                const response = await fetch('/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt.value,
+                        web_search: webSearchEnabled,
+                        model: currentModel
+                    }),
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                output.textContent = data.generated_text;
+                
+                // Create new chat entry
+                const newChat = {
+                    id: Date.now(),
+                    title: prompt.value.slice(0, 30) + (prompt.value.length > 30 ? '...' : ''),
+                    icon: getModelIcon(currentModel),
+                    timestamp: new Date().toISOString(),
+                    prompt: prompt.value,
+                    response: data.generated_text
+                };
+                
+                saveChat(newChat);
+                updateChatsList();
+                
+            } catch (error) {
+                console.error('Generation error:', error);
+                output.textContent = 'Error generating text. Please try again.';
+                output.style.color = '#dc3545';
+                
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = 'Generate';
+            }
+        }
+
+        // Add event listeners for the buttons
+        document.addEventListener('DOMContentLoaded', () => {
+            // Generate button
+            const generateBtn = document.getElementById('generateBtn');
+            if (generateBtn) {
+                generateBtn.addEventListener('click', generateText);
+            }
+            
+            // Web search toggle
+            const webSearchBtn = document.getElementById('webSearchBtn');
+            if (webSearchBtn) {
+                webSearchBtn.addEventListener('click', toggleWebSearch);
+            }
+            
+            // New chat button
+            const newChatBtn = document.querySelector('.new-chat-btn');
+            if (newChatBtn) {
+                newChatBtn.addEventListener('click', () => {
+                    currentChatId = null;
+                    document.getElementById('prompt').value = '';
+                    document.getElementById('output').textContent = '';
+                    document.getElementById('output').classList.remove('active');
+                    
+                    // Deselect current chat
+                    document.querySelectorAll('.chat-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                });
+            }
+            
+            // Theme toggle
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+            
+            // Enter key support for textarea
+            const promptTextarea = document.getElementById('prompt');
+            if (promptTextarea) {
+                promptTextarea.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                        e.preventDefault();
+                        generateText();
+                    }
+                });
+            }
+        });
+
+        // Add mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const sidebar = document.querySelector('.sidebar');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
+
+        // Store event listener references for cleanup
+        const eventListeners = new Map();
+
+        function attachChatItemListeners() {
+            document.querySelectorAll('.chat-item').forEach(item => {
+                // Remove existing listener if any
+                const oldListener = eventListeners.get(item);
+                if (oldListener) {
+                    item.removeEventListener('click', oldListener);
+                }
+
+                const listener = () => {
+                    document.querySelectorAll('.chat-item').forEach(chat => {
+                        chat.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    currentChatId = parseInt(item.dataset.id);
+                    
+                    const chat = chats.find(c => c.id === currentChatId);
+                    if (chat) {
+                        // Load chat history
+                    }
+                };
+
+                eventListeners.set(item, listener);
+                item.addEventListener('click', listener);
+            });
+        }
+
+        // Add search functionality
+        const searchInput = document.querySelector('.search-container input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                document.querySelectorAll('.chat-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+                });
+            });
+        }
+
+        // Add functionality for FAB options
+        document.querySelectorAll('.fab-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const action = this.getAttribute('title');
+                switch(action) {
+                    case 'Connect to Google Docs':
+                        // Add Google Docs connection logic
+                        console.log('Connecting to Google Docs...');
+                        break;
+                    case 'Connect to OneDrive':
+                        // Add OneDrive connection logic
+                        console.log('Connecting to OneDrive...');
+                        break;
+                    case 'Upload Image':
+                        // Create and trigger file input
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = 'image/*';
+                        fileInput.style.display = 'none';
+                        document.body.appendChild(fileInput);
+                        
+                        fileInput.click();
+                        
+                        fileInput.addEventListener('change', function(e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                // Handle the uploaded image
+                                console.log('Image uploaded:', file.name);
+                                // Add your image handling logic here
+                            }
+                            document.body.removeChild(fileInput);
+                        });
+                        break;
+                }
+            });
+        });
+
+        // Function to organize chats by date
+        function organizeChatsByDate(chats) {
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            const sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+            const sections = {
+                today: [],
+                yesterday: [],
+                previousWeek: [],
+                previousMonth: [],
+                older: []
+            };
+
+            chats.forEach(chat => {
+                const chatDate = new Date(chat.timestamp);
+                if (chatDate.toDateString() === today.toDateString()) {
+                    sections.today.push(chat);
+                } else if (chatDate.toDateString() === yesterday.toDateString()) {
+                    sections.yesterday.push(chat);
+                } else if (chatDate > sevenDaysAgo) {
+                    sections.previousWeek.push(chat);
+                } else if (chatDate > thirtyDaysAgo) {
+                    sections.previousMonth.push(chat);
+                } else {
+                    sections.older.push(chat);
+                }
+            });
+
+            return sections;
+        }
+
+        // Function to render chat sections
+        function renderChatSections(sections) {
+            const container = document.querySelector('.chats-container');
+            container.innerHTML = '';
+
+            const renderSection = (title, chats) => {
+                if (chats.length === 0) return;
+
+                const section = document.createElement('div');
+                section.innerHTML = `<div class="date-section">${title}</div>`;
+                
+                chats.forEach(chat => {
+                    section.innerHTML += `
+                        <div class="chat-item" data-id="${chat.id}">
+                            <i class="${chat.icon}"></i>
+                            <span>${chat.title}</span>
+                        </div>
+                    `;
+                });
+
+                container.appendChild(section);
+            };
+
+            renderSection('Today', sections.today);
+            renderSection('Yesterday', sections.yesterday);
+            renderSection('Previous 7 Days', sections.previousWeek);
+            renderSection('Previous 30 Days', sections.previousMonth);
+            renderSection('Older', sections.older);
+
+            // Reattach click handlers to new chat items
+            document.querySelectorAll('.chat-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.chat-item').forEach(chat => {
+                        chat.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    currentChatId = parseInt(item.dataset.id);
+                });
+            });
+        }
+
+        // Helper functions for chat management
+        let currentChatId = null;
+        const chats = [];
+
+        function getModelIcon(modelType) {
+            const icons = {
+                'general': 'fas fa-robot',
+                'code': 'fas fa-code',
+                'research': 'fas fa-search',
+                'writer': 'fas fa-pencil-alt',
+                'web': 'fas fa-globe'
+            };
+            return icons[modelType] || icons.general;
+        }
+
+        function saveChat(chat) {
+            const existingChatIndex = chats.findIndex(c => c.id === chat.id);
+            if (existingChatIndex >= 0) {
+                chats[existingChatIndex] = chat;
+            } else {
+                chats.unshift(chat); // Add new chat to the beginning
+            }
+            
+            // Optional: Save to localStorage
+            localStorage.setItem('popi_chats', JSON.stringify(chats));
+        }
+
+        function updateChatsList() {
+            const sections = organizeChatsByDate(chats);
+            renderChatSections(sections);
+        }
+
+        // Load existing chats on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedChats = localStorage.getItem('popi_chats');
+            if (savedChats) {
+                chats.push(...JSON.parse(savedChats));
+                updateChatsList();
+            }
+        });
+
+        // Handle new chat button
+        const newChatBtn = document.querySelector('.new-chat-btn');
+        if (newChatBtn) {
+            document.querySelector('.new-chat-btn').addEventListener('click', () => {
+                currentChatId = null;
+                document.getElementById('prompt').value = '';
+                document.getElementById('output').textContent = '';
+                document.getElementById('output').classList.remove('active');
+                
+                // Deselect current chat
+                document.querySelectorAll('.chat-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+            });
+        }
+
+        // Theme toggling functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Set initial theme on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+
+        // Initialize application
+        function initializeApp() {
+            // Set initial theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Load saved chats
+            const savedChats = localStorage.getItem('popi_chats');
+            if (savedChats) {
+                try {
+                    chats.push(...JSON.parse(savedChats));
+                    updateChatsList();
+                } catch (error) {
+                    console.error('Error loading saved chats:', error);
+                    localStorage.removeItem('popi_chats');
+                }
+            }
+            
+            function attachEventListeners() {
+                const prompt = document.getElementById('prompt');
+                if (prompt) {
+                    prompt.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' && e.ctrlKey) {
+                            e.preventDefault();
+                            generateText();
+                        }
+                    });
+                }
+                
+                // Attach other event listeners...
+            }
+            
+            // Initialize on DOM load
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        }
+
+        // Add ripple effect to interactive buttons
+        document.querySelectorAll('.interactive-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const rect = button.getBoundingClientRect();
+                const ripple = document.createElement('div');
+                
+                ripple.className = 'ripple';
+                ripple.style.left = `${e.clientX - rect.left}px`;
+                ripple.style.top = `${e.clientY - rect.top}px`;
+                
+                button.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 1000);
+            });
+        });
+
+        // Add hover sound effect (optional)
+        const hoverSound = new Audio('path/to/hover-sound.mp3'); // Add your sound file
+        document.querySelectorAll('.interactive-btn').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                hoverSound.currentTime = 0;
+                hoverSound.volume = 0.1;
+                hoverSound.play().catch(() => {}); // Catch and ignore autoplay restrictions
+            });
+        });
+
+        // Add error handling for network issues
+        window.addEventListener('online', () => {
+            const generateBtn = document.getElementById('generateBtn');
+            if (generateBtn) {
+                generateBtn.disabled = false;
+            }
+        });
+
+        window.addEventListener('offline', () => {
+            const generateBtn = document.getElementById('generateBtn');
+            if (generateBtn) {
+                generateBtn.disabled = true;
+            }
+            alert('Please check your internet connection.');
+        });
+    </script>
+</body>
+</html> 
